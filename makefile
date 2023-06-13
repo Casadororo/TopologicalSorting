@@ -25,3 +25,5 @@ clean:
 	-rm -f $(objs) *~
 purge: clean
 	-rm -f $(TARGET)
+clean_images:
+	-rm -f test/*.png

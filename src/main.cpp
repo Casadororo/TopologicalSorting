@@ -1,7 +1,9 @@
 #include <bits/stdc++.h>
+#include <graphviz/cgraph.h>
 #include <graphviz/gvc.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <bits/stdlib.h>
 #include <filesystem>
 
 using namespace std;
@@ -50,7 +52,7 @@ void topologicalSort(Agraph_t *g) {
 
     // Verifica se existe um ciclo no grafo a partir do número de vértices visitados e o numero de vertices no grafo
     if (visited_vertices != vertices_n) {
-        cerr << "Existe um ciclo no grafo\n";
+        cout << "Error: Graph contains a cycle" << endl;
         return;
     }
 
@@ -78,8 +80,14 @@ fs::path uniqueName(const std::string &name) {
 int main() {
     GVC_t *gvc = gvContext();
     Agraph_t *g = agread(stdin, NULL);
+
     if (g == NULL) {
-        fprintf(stderr, "Error: Could not read graph.\n");
+        cerr << "Error: Could not read graph." << endl;
+        return EXIT_FAILURE;
+    }
+
+    if(agisdirected(g) == 0){
+        cerr << "Error: Graph is not directed." << endl;
         return EXIT_FAILURE;
     }
 

@@ -52,7 +52,7 @@ void topologicalSort(Agraph_t *g) {
 
     // Verifica se existe um ciclo no grafo a partir do número de vértices visitados e o numero de vertices no grafo
     if (visited_vertices != vertices_n) {
-        cout << "Error: Graph contains a cycle" << endl;
+        cout << "Error: Graph contains a cycle." << endl;
         return;
     }
 

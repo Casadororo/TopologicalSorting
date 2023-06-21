@@ -56,11 +56,9 @@ void topologicalSort(Agraph_t *g) {
         return;
     }
 
-    // cout << "(";
-    size_t i = 0;
-    for (; i < top_order.size() - 1; i++)
+    for (size_t i = 0; i < top_order.size() - 1; i++)
         cout << top_order[i] << ", ";
-    cout << top_order[i];// << ")";
+    cout << top_order[i];
 }
 
 //Find a unique name for a file

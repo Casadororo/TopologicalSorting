@@ -1,10 +1,10 @@
 #include <bits/stdc++.h>
+#include <bits/stdlib.h>
+#include <filesystem>
 #include <graphviz/cgraph.h>
 #include <graphviz/gvc.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <bits/stdlib.h>
-#include <filesystem>
 
 using namespace std;
 namespace fs = std::filesystem;
@@ -25,8 +25,8 @@ void topologicalSort(Agraph_t *g) {
 
     // Calcula o grau de entrada de cada vértice
     for (Agnode_t *n = agfstnode(g); n; n = agnxtnode(g, n)) {
-        in_degree[AGSEQ(n)] = agdegree(g, n, true, false);
-        if (in_degree[AGSEQ(n)] == 0)
+        in_degree[AGSEQ(n) - 1] = agdegree(g, n, true, false);
+        if (in_degree[AGSEQ(n) - 1] == 0)
             q.push(n);
     }
 
@@ -43,14 +43,15 @@ void topologicalSort(Agraph_t *g) {
 
         for (e = agfstout(g, u); e; e = agnxtout(g, e)) {
             v = aghead(e);
-            if (--in_degree[AGSEQ(v)] == 0)
+            if (--in_degree[AGSEQ(v) - 1] == 0)
                 q.push(v);
         }
 
         visited_vertices++;
     }
 
-    // Verifica se existe um ciclo no grafo a partir do número de vértices visitados e o numero de vertices no grafo
+    // Verifica se existe um ciclo no grafo a partir do número de vértices
+    // visitados e o numero de vertices no grafo
     if (visited_vertices != vertices_n) {
         cout << "Error: Graph contains a cycle." << endl;
         return;
@@ -62,12 +63,12 @@ void topologicalSort(Agraph_t *g) {
     cout << top_order[i];
 }
 
-//Find a unique name for a file
+// Find a unique name for a file
 fs::path uniqueName(const std::string &name) {
     fs::path possibleName{name};
     auto stem = possibleName.stem().string();
     auto ext = possibleName.extension().string();
-    for (int i=1; fs::exists(possibleName); ++i) {
+    for (int i = 1; fs::exists(possibleName); ++i) {
         std::ostringstream fn;
         fn << stem << i << ext;
         possibleName.replace_filename(fn.str());
@@ -75,7 +76,6 @@ fs::path uniqueName(const std::string &name) {
     return possibleName;
 }
 
-// Driver program to test above functions
 int main() {
     GVC_t *gvc = gvContext();
     Agraph_t *g = agread(stdin, NULL);
@@ -85,7 +85,7 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    if(agisdirected(g) == 0){
+    if (agisdirected(g) == 0) {
         cerr << "Error: Graph is not directed." << endl;
         return EXIT_FAILURE;
     }

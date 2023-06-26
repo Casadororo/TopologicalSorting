@@ -55,8 +55,8 @@ void topologicalSort(Agraph_t *g) {
 
     size_t i = 0;
     for (; i < top_order.size() - 1; i++)
-        cout << top_order[i] << ", ";
-    cout << top_order[i];
+        cout << top_order[i] << " ";
+    cout << top_order[i] << endl;
 }
 
 int main() {
